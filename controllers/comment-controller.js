@@ -7,7 +7,10 @@ const commentController = {
     Comment.create(body)
       .then(({ _id }) => {
         return Network.findOneAndUpdate(
-          { _id: params.pizzaId },
+
+          { _id: params.networkId },
+
+
           { $push: { comments: _id } },
           { new: true }
         );
@@ -48,7 +51,9 @@ const commentController = {
           return res.status(404).json({ message: 'No comment with this id!' });
         }
         return Network.findOneAndUpdate(
-          { _id: params.pizzaId },
+
+          { _id: params.networkId },
+
           { $pull: { comments: params.commentId } },
           { new: true }
         );
@@ -58,7 +63,8 @@ const commentController = {
           res.status(404).json({ message: 'No network found with this id!' });
           return;
         }
-        res.json(dbPizzaData);
+        res.json(dbNetworkData);
+
       })
       .catch(err => res.json(err));
   },
