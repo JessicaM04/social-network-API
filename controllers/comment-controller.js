@@ -1,24 +1,24 @@
-const { Comment, Pizza } = require('../models');
+const { Comment, Network } = require('../models');
 
 const commentController = {
-  // add comment to pizza
+  // add comment to network
   addComment({ params, body }, res) {
     console.log(params);
     Comment.create(body)
       .then(({ _id }) => {
-        return Pizza.findOneAndUpdate(
-          { _id: params.pizzaId },
+        return Network.findOneAndUpdate(
+          { _id: params.networkId },
           { $push: { comments: _id } },
           { new: true }
         );
       })
-      .then(dbPizzaData => {
-        console.log(dbPizzaData);
-        if (!dbPizzaData) {
-          res.status(404).json({ message: 'No pizza found with this id!' });
+      .then(dbNetworkData => {
+        console.log(dbNetworkData);
+        if (!dbNetworkData) {
+          res.status(404).json({ message: 'No network found with this id!' });
           return;
         }
-        res.json(dbPizzaData);
+        res.json(dbNetworkData);
       })
       .catch(err => res.json(err));
   },
@@ -30,12 +30,12 @@ const commentController = {
       { $push: { replies: body } },
       { new: true, runValidators: true }
     )
-      .then(dbPizzaData => {
-        if (!dbPizzaData) {
-          res.status(404).json({ message: 'No pizza found with this id!' });
+      .then(dbNetworkData => {
+        if (!dbNetworkData) {
+          res.status(404).json({ message: 'No network found with this id!' });
           return;
         }
-        res.json(dbPizzaData);
+        res.json(dbNetworkData);
       })
       .catch(err => res.json(err));
   },
@@ -47,18 +47,18 @@ const commentController = {
         if (!deletedComment) {
           return res.status(404).json({ message: 'No comment with this id!' });
         }
-        return Pizza.findOneAndUpdate(
-          { _id: params.pizzaId },
+        return Network.findOneAndUpdate(
+          { _id: params.networkId },
           { $pull: { comments: params.commentId } },
           { new: true }
         );
       })
-      .then(dbPizzaData => {
-        if (!dbPizzaData) {
-          res.status(404).json({ message: 'No pizza found with this id!' });
+      .then(dbNetworkData => {
+        if (!dbNetworkData) {
+          res.status(404).json({ message: 'No network found with this id!' });
           return;
         }
-        res.json(dbPizzaData);
+        res.json(dbNetworkData);
       })
       .catch(err => res.json(err));
   },
@@ -69,7 +69,7 @@ const commentController = {
       { $pull: { replies: { replyId: params.replyId } } },
       { new: true }
     )
-      .then(dbPizzaData => res.json(dbPizzaData))
+      .then(dbNetworkData => res.json(dbNetworkData))
       .catch(err => res.json(err));
   }
 };

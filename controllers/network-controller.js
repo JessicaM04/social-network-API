@@ -1,66 +1,66 @@
-const { Pizza } = require('../models');
+const { Network } = require('../models');
 
-const pizzaController = {
-  // get all pizzas
-  getAllPizza(req, res) {
-    Pizza.find({})
+const networkController = {
+  // get all networks
+  getAllNetwork(req, res) {
+    Network.find({})
       .populate({
         path: 'comments',
         select: '-__v'
       })
       .select('-__v')
       .sort({ _id: -1 })
-      .then(dbPizzaData => res.json(dbPizzaData))
+      .then(dbNetworkData => res.json(dbNetworkData))
       .catch(err => {
         console.log(err);
         res.sendStatus(400);
       });
   },
 
-  // get one pizza by id
-  getPizzaById({ params }, res) {
-    Pizza.findOne({ _id: params.id })
+  // get one network by id
+  getNetworkById({ params }, res) {
+    Network.findOne({ _id: params.id })
       .populate({
         path: 'comments',
         select: '-__v'
       })
       .select('-__v')
-      .then(dbPizzaData => res.json(dbPizzaData))
+      .then(dbNetworkData => res.json(dbNetworkData))
       .catch(err => {
         console.log(err);
         res.sendStatus(400);
       });
   },
 
-  // createPizza
-  createPizza({ body }, res) {
-    Pizza.create(body)
-      .then(dbPizzaData => res.json(dbPizzaData))
+  // createNetwork
+  createNetwork({ body }, res) {
+    Network.create(body)
+      .then(dbNetworkData => res.json(dbNetworkData))
       .catch(err => res.json(err));
   },
 
-  // update pizza by id
-  updatePizza({ params, body }, res) {
-    Pizza.findOneAndUpdate({ _id: params.id }, body, {
+  // update network by id
+  updateNetwork({ params, body }, res) {
+    Network.findOneAndUpdate({ _id: params.id }, body, {
       new: true,
       runValidators: true
     })
-      .then(dbPizzaData => {
-        if (!dbPizzaData) {
-          res.status(404).json({ message: 'No pizza found with this id!' });
+      .then(dbNetworkData => {
+        if (!dbNetworkData) {
+          res.status(404).json({ message: 'No network found with this id!' });
           return;
         }
-        res.json(dbPizzaData);
+        res.json(dbNetworkData);
       })
       .catch(err => res.json(err));
   },
 
-  // delete pizza
-  deletePizza({ params }, res) {
-    Pizza.findOneAndDelete({ _id: params.id })
-      .then(dbPizzaData => res.json(dbPizzaData))
+  // delete network
+  deleteNetwork({ params }, res) {
+    Network.findOneAndDelete({ _id: params.id })
+      .then(dbNetworkData => res.json(dbNetworkData))
       .catch(err => res.json(err));
   }
 };
 
-module.exports = pizzaController;
+module.exports = networkController;
