@@ -5,7 +5,7 @@ const {
   createNetwork,
   updateNetwork,
   deleteNetwork
-} = require('../../controllers/network-controller');
+} = require('../../controllers/thoughtController');
 
 // /api/networks
 router
